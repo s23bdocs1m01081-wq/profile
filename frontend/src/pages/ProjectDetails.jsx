@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { projects } from '../data/projects.js';
+import FeatureSection from '../components/FeatureSection.jsx';
 
 function ProjectDetails() {
   const { slug } = useParams();
@@ -27,6 +28,41 @@ function ProjectDetails() {
       </div>
     );
   }
+
+  // Determine device variant based on section title/content
+  const getDeviceVariant = (section, index) => {
+    const title = section.title.toLowerCase();
+    
+    // Phone variants
+    if (title.includes('mobile') || title.includes('app') || title.includes('messaging') || title.includes('feed')) {
+      return { device: 'phone', orientation: 'portrait', notch: true };
+    }
+    
+    // Tablet variants  
+    if (title.includes('tablet') || title.includes('collection') || title.includes('catalog')) {
+      return { device: 'tablet', orientation: 'landscape' };
+    }
+    
+    // Desktop variants
+    if (title.includes('dashboard') || title.includes('admin') || title.includes('overview') || title.includes('workspace')) {
+      return { device: 'desktop' };
+    }
+    
+    // Laptop variants
+    if (title.includes('detail') || title.includes('checkout') || title.includes('cart') || title.includes('storefront')) {
+      return { device: 'laptop' };
+    }
+    
+    // Default cycle through devices for variety
+    const devices = [
+      { device: 'phone', orientation: 'portrait', notch: true },
+      { device: 'tablet', orientation: 'landscape' },
+      { device: 'laptop' },
+      { device: 'desktop' }
+    ];
+    
+    return devices[index % devices.length];
+  };
 
   const total = project.sections.length;
 
@@ -91,20 +127,25 @@ function ProjectDetails() {
         </div>
 
         {/* Sections with descriptions */}
-        <section className="mt-12 space-y-10">
-          {project.sections.map((section, idx) => (
-            <article key={section.title + idx} className="grid md:grid-cols-2 gap-6 md:gap-8 items-start">
-              <div className="rounded-md overflow-hidden shadow-sm border border-gray-100">
-                <img src={section.image} alt={section.title} className="w-full h-56 sm:h-64 object-cover" />
-              </div>
-              <div>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-3">{section.title}</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  {section.description}
-                </p>
-              </div>
-            </article>
-          ))}
+        <section className="mt-12 space-y-16">
+          {project.sections.map((section, idx) => {
+            const deviceConfig = getDeviceVariant(section, idx);
+            
+            return (
+              <FeatureSection
+                key={section.title + idx}
+                title={section.title}
+                description={section.description}
+                media={{
+                  src: section.image,
+                  alt: section.title,
+                  ...deviceConfig
+                }}
+                reverse={idx % 2 === 1} // Alternate layout: even indices = normal, odd indices = reversed
+                className="max-w-5xl mx-auto"
+              />
+            );
+          })}
         </section>
 
         {/* Actions */}
