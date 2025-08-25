@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { buildMailto, buildGmailCompose, openMailClient } from '../../utils/mailto.js';
 
 function ContactForm() {
   const [formData, setFormData] = useState({
@@ -12,9 +13,45 @@ function ContactForm() {
   
   const [submitState, setSubmitState] = useState('idle'); // idle | sending | success | error
   const [statusMessage, setStatusMessage] = useState('');
+  const [showGmailFallback, setShowGmailFallback] = useState(false);
+  const gmailFallbackTimeoutRef = useRef(null);
 
   // Get endpoint from environment variable
   const contactEndpoint = import.meta.env.VITE_CONTACT_ENDPOINT;
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (gmailFallbackTimeoutRef.current) {
+        clearTimeout(gmailFallbackTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleGmailFallback = () => {
+    const subject = formData.subject || 'Contact from Portfolio Website';
+    const body = `Hi,
+
+${formData.message}
+
+Best regards,
+${formData.firstName} ${formData.lastName}
+${formData.email}`;
+
+    try {
+      const gmailUrl = buildGmailCompose({
+        to: 'mohsanalimohsan649@gmail.com',
+        subject,
+        body
+      });
+      
+      // Open Gmail in new tab
+      window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+      setShowGmailFallback(false);
+    } catch (error) {
+      console.error('Failed to open Gmail compose:', error);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -105,7 +142,7 @@ function ContactForm() {
         setStatusMessage('Failed to send message. Please try again or use the email link below.');
       }
     } else {
-      // Fallback to mailto
+      // Fallback to mailto with detection for failed handler
       const subject = formData.subject || 'Contact from Portfolio Website';
       const body = `Hi,
 
@@ -115,11 +152,39 @@ Best regards,
 ${formData.firstName} ${formData.lastName}
 ${formData.email}`;
       
-      const mailtoLink = `mailto:mohsanalimohsan649@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.open(mailtoLink);
-      
-      setSubmitState('success');
-      setStatusMessage('Your email client should open now. If it doesn\'t, please copy mohsanalimohsan649@gmail.com and email me directly.');
+      try {
+        const mailtoLink = buildMailto({
+          to: 'mohsanalimohsan649@gmail.com',
+          subject,
+          body
+        });
+        
+        // Clear any existing timeout
+        if (gmailFallbackTimeoutRef.current) {
+          clearTimeout(gmailFallbackTimeoutRef.current);
+        }
+        
+        // Reset Gmail fallback state
+        setShowGmailFallback(false);
+        
+        // Open mail client
+        openMailClient(mailtoLink);
+        
+        // Detect if the page is still visible/focused after 1.5s
+        // If so, the mailto handler likely didn't take over
+        gmailFallbackTimeoutRef.current = setTimeout(() => {
+          if (!document.hidden && document.hasFocus()) {
+            setShowGmailFallback(true);
+          }
+        }, 1500);
+        
+        setSubmitState('success');
+        setStatusMessage('Your email client should open now. If it doesn\'t, please use the Gmail option below or email me directly.');
+        
+      } catch {
+        setSubmitState('error');
+        setStatusMessage('Failed to open email client. Please copy mohsanalimohsan649@gmail.com and email me directly.');
+      }
       
       // Clear form
       setFormData({
@@ -249,6 +314,27 @@ ${formData.email}`;
             }`}
           >
             {statusMessage}
+          </div>
+        )}
+
+        {/* Gmail fallback helper - appears when mailto handler likely didn't open */}
+        {!contactEndpoint && showGmailFallback && (
+          <div
+            role="region"
+            aria-live="polite"
+            className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-md"
+          >
+            <div className="text-sm text-blue-800">
+              <p className="mb-3">
+                <strong>Email client not opening?</strong> This can happen when your browser or operating system doesn't have a default mail handler configured.
+              </p>
+              <button
+                onClick={handleGmailFallback}
+                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+              >
+                Open Gmail compose instead
+              </button>
+            </div>
           </div>
         )}
 
