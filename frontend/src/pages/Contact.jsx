@@ -8,9 +8,9 @@ function Contact() {
   const isDev = import.meta.env.DEV;
 
   return (
-    <section className="py-20">
-      {/* Development debug banner */}
-      {isDev && (
+    <section className="py-20  ">
+      
+      {/* {isDev && (
         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-6 mx-6">
           <div className="max-w-6xl mx-auto">
             <div className="flex items-center justify-between text-sm">
@@ -38,8 +38,8 @@ function Contact() {
             )}
           </div>
         </div>
-      )}
-      <div className="max-w-6xl mx-auto px-6">
+      )} */}
+      <div className="max-w-6xl mx-auto f px-6">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-semibold text-gray-900 mb-4">Let's Connect</h1>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
@@ -56,7 +56,7 @@ function Contact() {
           
           {/* Contact Form - Right Column */}
           <div>
-            <ContactForm />
+            {/* <ContactForm /> */}
           </div>
         </div>
       </div>
