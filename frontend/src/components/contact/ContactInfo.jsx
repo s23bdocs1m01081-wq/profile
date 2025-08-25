@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { openMailClient } from '../../utils/mailto.js';
 
 function ContactInfo() {
   const [emailCopied, setEmailCopied] = useState(false);
@@ -9,8 +10,8 @@ function ContactInfo() {
       setEmailCopied(true);
       setTimeout(() => setEmailCopied(false), 2000);
     } catch {
-      // Fallback - just open mailto if copy fails
-      window.open('mailto:mohsanalimohsan649@gmail.com');
+      // Fallback - open mailto if copy fails using utility
+      openMailClient('mailto:mohsanalimohsan649@gmail.com');
     }
   };
 

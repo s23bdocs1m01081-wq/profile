@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { buildMailto, openMailClient } from '../../utils/mailto.js';
 
 function ContactForm() {
   const [formData, setFormData] = useState({
@@ -105,18 +106,17 @@ function ContactForm() {
         setStatusMessage('Failed to send message. Please try again or use the email link below.');
       }
     } else {
-      // Fallback to mailto
-      const subject = formData.subject || 'Contact from Portfolio Website';
-      const body = `Hi,
-
-${formData.message}
-
-Best regards,
-${formData.firstName} ${formData.lastName}
-${formData.email}`;
+      // Fallback to mailto using utility
+      const mailtoLink = buildMailto({
+        to: 'mohsanalimohsan649@gmail.com',
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        subject: formData.subject || 'Contact from Portfolio Website',
+        message: formData.message
+      });
       
-      const mailtoLink = `mailto:mohsanalimohsan649@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.open(mailtoLink);
+      openMailClient(mailtoLink);
       
       setSubmitState('success');
       setStatusMessage('Your email client should open now. If it doesn\'t, please copy mohsanalimohsan649@gmail.com and email me directly.');
