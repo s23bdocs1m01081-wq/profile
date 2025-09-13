@@ -48,26 +48,26 @@ export const projects = [
     sections: [
       {
         title: 'Storefront & Catalog',
-        image: '/mockups/eco3.jpeg',
+        image: '/mockups/home.png',
         description:
           'Beautiful product listings with responsive cards, filters, and search. Optimized for fast browsing and mobile-first experiences.',
       },
       {
         title: 'Collection Pages',
-        image: '/mockups/eco2.jpeg',
+        image: '/mockups/collection.png',
         description:
           'Collection pages with product cards, filters, and sorting options. Easy navigation and filtering for a seamless shopping experience.',
       },
       {
         title: 'Product Details',
-        image: '/mockups/eco1.jpeg',
+        image: '/mockups/eco-product.png',
         description:
           'High-resolution images,Clear CTAs guide users through selection, customization, and checkout.',
       },
 
       {
         title: 'Cart & Checkout',
-        image:'/mockups/eco4.jpeg',
+        image:'/mockups/eco-checkout.png',
         description:
           'Seamless cart flow with Stripe integration, validation, and order confirmation. Minimizes friction to improve conversion rates.',
       },
