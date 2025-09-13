@@ -5,7 +5,7 @@ export const projects = [
     description:
       'A full-featured dashboard for managing notes, tasks, and timelines built for a local retailer.',
     tech: 'React, Node.js, MongoDb',
-    cover: '/mockups/note1.png',
+    cover: '/mockups/noteCover.png',
     liveUrl: 'https://i-note-book-mohsan.vercel.app/',
     repoUrl: 'https://github.com/Mogehs/iNoteBook_Mohsan',
     sections: [
@@ -41,7 +41,7 @@ export const projects = [
     description:
       'A full-featured online store with inventory management, payment processing, and customer analytics built for a local retailer.',
     tech: 'Next.js, Stripe, MongoDB, Tailwind CSS',
-    cover: '/mockups/eco3.jpeg',
+    cover: '/mockups/eco-cover.png',
     liveUrl:
       'https://online-shop-4k3203wsr-mohsan-alis-projects-a2ecac61.vercel.app/',
     repoUrl: 'https://github.com/Ch-Mohsan/OnlineShop',
