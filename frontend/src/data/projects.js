@@ -43,7 +43,7 @@ export const projects = [
     tech: 'Next.js, Stripe, MongoDB, Tailwind CSS',
     cover: '/mockups/eco-cover.png',
     liveUrl:
-      'https://online-shop-4k3203wsr-mohsan-alis-projects-a2ecac61.vercel.app/',
+      'https://online-shop-iota-one.vercel.app/',
     repoUrl: 'https://github.com/Ch-Mohsan/OnlineShop',
     sections: [
       {
