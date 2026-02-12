@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   loadImage,
   resizeImage,
-  cropImage,
   applyFilter,
   rotateImage,
   flipImage,
@@ -19,14 +18,12 @@ function ImageEditor() {
   
   // Edit states
   const [rotation, setRotation] = useState(0);
-  const [filter, setFilter] = useState({ type: 'none', intensity: 1 });
   const [resizeWidth, setResizeWidth] = useState('');
   const [resizeHeight, setResizeHeight] = useState('');
   const [outputFormat, setOutputFormat] = useState('image/png');
   const [quality, setQuality] = useState(0.9);
   
   const fileInputRef = useRef(null);
-  const canvasRef = useRef(null);
 
   // Handle file selection
   const handleFileSelect = async (e) => {
@@ -92,7 +89,6 @@ function ImageEditor() {
     if (!originalImage) return;
     
     setIsProcessing(true);
-    setFilter({ type: filterType, intensity });
     
     try {
       if (filterType === 'none') {
@@ -150,7 +146,6 @@ function ImageEditor() {
       setOriginalImage(img);
       setPreviewImage(img.src);
       setRotation(0);
-      setFilter({ type: 'none', intensity: 1 });
       setResizeWidth(img.width);
       setResizeHeight(img.height);
     } catch (error) {

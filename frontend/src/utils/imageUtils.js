@@ -143,7 +143,7 @@ export const applyFilter = (image, filterType, intensity = 1) => {
         }
         break;
       
-      case 'brightness':
+      case 'brightness': {
         const brightnessFactor = intensity * 50;
         for (let i = 0; i < data.length; i += 4) {
           data[i] = Math.min(255, Math.max(0, data[i] + brightnessFactor));
@@ -151,8 +151,9 @@ export const applyFilter = (image, filterType, intensity = 1) => {
           data[i + 2] = Math.min(255, Math.max(0, data[i + 2] + brightnessFactor));
         }
         break;
+      }
       
-      case 'contrast':
+      case 'contrast': {
         const contrastFactor = (259 * (intensity * 100 + 255)) / (255 * (259 - intensity * 100));
         for (let i = 0; i < data.length; i += 4) {
           data[i] = Math.min(255, Math.max(0, contrastFactor * (data[i] - 128) + 128));
@@ -160,6 +161,7 @@ export const applyFilter = (image, filterType, intensity = 1) => {
           data[i + 2] = Math.min(255, Math.max(0, contrastFactor * (data[i + 2] - 128) + 128));
         }
         break;
+      }
       
       case 'invert':
         for (let i = 0; i < data.length; i += 4) {
