@@ -100,8 +100,12 @@ export const cropImage = (image, cropArea, format = 'image/png', quality = 0.9) 
 /**
  * Apply a filter to an image
  * @param {HTMLImageElement} image - Source image
- * @param {string} filterType - Filter type (grayscale, sepia, brightness, contrast, blur)
- * @param {number} intensity - Filter intensity (0-1 or specific to filter)
+ * @param {string} filterType - Filter type (grayscale, sepia, brightness, contrast, invert)
+ * @param {number} intensity - Filter intensity:
+ *   - grayscale/sepia: 0-1 (0 = no effect, 1 = full effect)
+ *   - brightness: -1 to 1 (multiplied by 50 for pixel adjustment, e.g., 0.5 adds 25 to each pixel)
+ *   - contrast: 0-1 (uses contrast enhancement formula, 0.5 = neutral, 1 = maximum)
+ *   - invert: not used (always full invert)
  * @returns {Promise<string>} - Data URL of filtered image
  */
 export const applyFilter = (image, filterType, intensity = 1) => {
@@ -144,6 +148,8 @@ export const applyFilter = (image, filterType, intensity = 1) => {
         break;
       
       case 'brightness': {
+        // Brightness adjustment: intensity * 50 = pixel value change
+        // Range: -1 to 1, where -1 darkens by 50, 1 brightens by 50
         const brightnessFactor = intensity * 50;
         for (let i = 0; i < data.length; i += 4) {
           data[i] = Math.min(255, Math.max(0, data[i] + brightnessFactor));
@@ -154,6 +160,8 @@ export const applyFilter = (image, filterType, intensity = 1) => {
       }
       
       case 'contrast': {
+        // Contrast enhancement using standard formula: (259(C+255))/(255(259-C))
+        // where C = intensity * 100, giving range 0-100 for the contrast value
         const contrastFactor = (259 * (intensity * 100 + 255)) / (255 * (259 - intensity * 100));
         for (let i = 0; i < data.length; i += 4) {
           data[i] = Math.min(255, Math.max(0, contrastFactor * (data[i] - 128) + 128));
