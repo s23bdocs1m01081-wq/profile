@@ -8,6 +8,7 @@ import Projects from './pages/Projects.jsx';
 import Skills from './pages/Skills.jsx';
 import Contact from './pages/Contact.jsx';
 import ProjectDetails from './pages/ProjectDetails.jsx';
+import ImageEditor from './components/ImageEditor.jsx';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="projects/:slug" element={<ProjectDetails />} />
         <Route path="skills" element={<Skills />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="image-editor" element={<ImageEditor />} />
         <Route path="*" element={<Home />} />
       </Route>
     </Routes>

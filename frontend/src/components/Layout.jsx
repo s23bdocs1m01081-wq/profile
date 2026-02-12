@@ -28,6 +28,7 @@ function Layout() {
             <NavLink to="/about" className={({ isActive }) => (isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass)}>About</NavLink>
             <NavLink to="/projects" className={({ isActive }) => (isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass)}>Projects</NavLink>
             <NavLink to="/skills" className={({ isActive }) => (isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass)}>Skills</NavLink>
+            <NavLink to="/image-editor" className={({ isActive }) => (isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass)}>Image Editor</NavLink>
             <NavLink to="/contact" className={({ isActive }) => (isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass)}>Contact</NavLink>
           </nav>
           <div className="flex items-center gap-3">
@@ -58,6 +59,7 @@ function Layout() {
             <NavLink to="/about" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass)}>About</NavLink>
             <NavLink to="/projects" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass)}>Projects</NavLink>
             <NavLink to="/skills" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass)}>Skills</NavLink>
+            <NavLink to="/image-editor" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass)}>Image Editor</NavLink>
             <NavLink to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass)}>Contact</NavLink>
             <div className="flex items-center gap-3 pt-1">
               <a target='_blank' href="https://github.com/Ch-Mohsan" className="text-gray-600 hover:text-gray-900 transition-colors" rel="noreferrer">GitHub</a>
